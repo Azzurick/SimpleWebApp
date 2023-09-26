@@ -63,6 +63,7 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     subnets = ["subnet-064fb686de4d173d9"] #hardcoded subnet
     security_groups = [aws_security_group.security_group.id]
+    assign_public_ip = true
   }
   depends_on = [aws_iam_role.ecs_execution_role]
 }
