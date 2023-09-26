@@ -26,7 +26,7 @@ jobs:
 
     - name: Build, tag, and push docker image to Amazon ECR
       env:
-        ECR_REGISTRY: 797189481526.dkr.ecr.eu-west-1.amazonaws.com/
+        ECR_REGISTRY: 797189481526.dkr.ecr.eu-west-1.amazonaws.com
         IMAGE_NAME: decsecopschallenge
         IMAGE_TAG: latest
       run: |
