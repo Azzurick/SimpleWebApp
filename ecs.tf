@@ -53,7 +53,7 @@ resource "aws_iam_role" "ecs_execution_role" {
       },
     ],
   })
-  managed_policy_arns = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
 }
 
 resource "aws_ecs_service" "service" {
