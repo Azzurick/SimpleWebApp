@@ -60,11 +60,14 @@ resource "aws_ecs_service" "service" {
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task.arn
   launch_type     = "FARGATE"
+  desired_count   = 1
   network_configuration {
     subnets = ["subnet-064fb686de4d173d9"] #hardcoded subnet
     security_groups = [aws_security_group.security_group.id]
     assign_public_ip = true
   }
+  force_new_deployment = true
+
   depends_on = [aws_iam_role.ecs_execution_role]
 }
 
