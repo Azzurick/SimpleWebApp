@@ -77,7 +77,7 @@ resource "aws_ecs_service" "service" {
   depends_on = [aws_iam_role.ecs_execution_role, aws_lb_listener.listener]
 
   triggers = {
-    redeployment = timestamp()
+    update = timestamp()
   }
 }
 
