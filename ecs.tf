@@ -75,7 +75,7 @@ resource "aws_ecs_service" "service" {
 
   force_new_deployment = true
 
-  depends_on = [aws_iam_role.ecs_execution_role]
+  depends_on = [aws_iam_role.ecs_execution_role, aws_lb_listener.listener]
 }
 
 resource "aws_security_group" "security_group" {
@@ -108,20 +108,6 @@ resource "aws_lb" "my_alb" {
   enable_deletion_protection = false
 }
 
-resource "aws_lb_listener" "my_listener" {
-  load_balancer_arn = aws_lb.my_alb.arn
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      status_code  = "200"
-      message_body = "OK"
-    }
-  }
-}
 
 resource "aws_lb_target_group" "target_group" {
   name     = "ecs-target-group"
