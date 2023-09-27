@@ -72,10 +72,13 @@ resource "aws_ecs_service" "service" {
     container_name   = "webapp-container"
     container_port   = 80
   }
-
   force_new_deployment = true
 
   depends_on = [aws_iam_role.ecs_execution_role, aws_lb_listener.listener]
+
+  triggers = {
+    redeployment = timestamp()
+  }
 }
 
 resource "aws_security_group" "security_group" {
