@@ -77,8 +77,13 @@ resource "aws_ecs_service" "service" {
   depends_on = [aws_iam_role.ecs_execution_role, aws_lb_listener.listener]
 
   triggers = {
-    update = timestamp()
+    redeployment = var.timestamp_id
   }
+}
+
+variable "timestamp_id" {
+    type = string
+    default = ""
 }
 
 resource "aws_security_group" "security_group" {
