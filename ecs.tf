@@ -145,7 +145,7 @@ resource "aws_lb_listener" "listener" {
 }
 
 resource "aws_security_group" "lb_security_group" {
-  name        = "alb-sec-group"
+  name        = "lb-sec-group"
   description = "Security group for simple webapp, allows access from all internet"
   ingress {
     from_port   = 80
