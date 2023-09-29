@@ -92,7 +92,7 @@ resource "aws_security_group" "security_group" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.alb_security_group.id]
+    security_groups = [aws_security_group.lb_security_group.id]
     ipv6_cidr_blocks = ["::/0"]
   }
   egress {
@@ -109,7 +109,7 @@ resource "aws_lb" "my_alb" {
   name               = "simple-webapp-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb_security_group.id]
+  security_groups    = [aws_security_group.lb_security_group.id]
   subnets            = ["subnet-064fb686de4d173d9", "subnet-0642513b7880c22c0", "subnet-0c5ee9d65240ad92f"]
 
   enable_deletion_protection = false
