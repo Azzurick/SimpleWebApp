@@ -62,10 +62,11 @@ resource "aws_ecs_service" "service" {
   task_definition = aws_ecs_task_definition.task.arn
   launch_type     = "FARGATE"
   desired_count   = 2
-  assign_public_ip = true
   network_configuration {
     subnets = ["subnet-064fb686de4d173d9", "subnet-0642513b7880c22c0", "subnet-0c5ee9d65240ad92f"] #hardcoded subnets
     security_groups = [aws_security_group.security_group.id]
+    assign_public_ip = true
+
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
