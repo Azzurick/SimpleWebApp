@@ -144,7 +144,7 @@ resource "aws_lb_listener" "listener" {
   }
 }
 
-resource "aws_security_group" "alb_security_group" {
+resource "aws_security_group" "lb_security_group" {
   name        = "alb-sec-group"
   description = "Security group for simple webapp, allows access from all internet"
   ingress {
