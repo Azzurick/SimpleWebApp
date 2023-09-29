@@ -64,8 +64,7 @@ resource "aws_ecs_service" "service" {
   desired_count   = 2
   network_configuration {
     subnets = ["subnet-064fb686de4d173d9", "subnet-0642513b7880c22c0", "subnet-0c5ee9d65240ad92f"] #hardcoded subnets
-    security_groups = [aws_security_group.security_group.id]
-    assign_public_ip = true
+    security_groups = [aws_security_group.ecs_security_group.id]
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
@@ -86,14 +85,14 @@ variable "timestamp_id" {
     default = ""
 }
 
-resource "aws_security_group" "security_group" {
-  name        = "simple-webapp-sec-group"
+resource "aws_security_group" "ecs_security_group" {
+  name        = "ecs-webapp-sec-group"
   description = "Security group for simple webapp"
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.alb_security_group.id]
     ipv6_cidr_blocks = ["::/0"]
   }
   egress {
@@ -110,7 +109,7 @@ resource "aws_lb" "my_alb" {
   name               = "simple-webapp-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.security_group.id]
+  security_groups    = [aws_security_group.alb_security_group.id]
   subnets            = ["subnet-064fb686de4d173d9", "subnet-0642513b7880c22c0", "subnet-0c5ee9d65240ad92f"]
 
   enable_deletion_protection = false
@@ -142,5 +141,24 @@ resource "aws_lb_listener" "listener" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.arn
+  }
+}
+
+resource "aws_security_group" "alb_security_group" {
+  name        = "alb-sec-group"
+  description = "Security group for simple webapp, allows access from all internet"
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
