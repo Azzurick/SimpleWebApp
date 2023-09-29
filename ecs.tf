@@ -94,7 +94,7 @@ resource "aws_security_group" "security_group" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.lb_security_group.id]
     ipv6_cidr_blocks = ["::/0"]
   }
   egress {
