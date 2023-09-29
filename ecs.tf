@@ -62,6 +62,7 @@ resource "aws_ecs_service" "service" {
   task_definition = aws_ecs_task_definition.task.arn
   launch_type     = "FARGATE"
   desired_count   = 2
+  assign_public_ip = true
   network_configuration {
     subnets = ["subnet-064fb686de4d173d9", "subnet-0642513b7880c22c0", "subnet-0c5ee9d65240ad92f"] #hardcoded subnets
     security_groups = [aws_security_group.security_group.id]
@@ -92,7 +93,7 @@ resource "aws_security_group" "security_group" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.lb_security_group.id]
+    cidr_blocks = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
   egress {
