@@ -64,7 +64,7 @@ resource "aws_ecs_service" "service" {
   desired_count   = 2
   network_configuration {
     subnets = ["subnet-064fb686de4d173d9", "subnet-0642513b7880c22c0", "subnet-0c5ee9d65240ad92f"] #hardcoded subnets
-    security_groups = [aws_security_group.ecs_security_group.id]
+    security_groups = [aws_security_group.security_group.id]
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
@@ -85,7 +85,7 @@ variable "timestamp_id" {
     default = ""
 }
 
-resource "aws_security_group" "ecs_security_group" {
+resource "aws_security_group" "security_group" {
   name        = "ecs-webapp-sec-group"
   description = "Security group for simple webapp"
   ingress {
@@ -161,4 +161,8 @@ resource "aws_security_group" "alb_security_group" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
+}
+
+output "alb_dns" {
+  value = aws_lb.my_alb.dns_name
 }
