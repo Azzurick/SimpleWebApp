@@ -86,7 +86,7 @@ variable "timestamp_id" {
 }
 
 resource "aws_security_group" "security_group" {
-  name        = "ecs-webapp-sec-group"
+  name        = "ecs-sec-group"
   description = "Security group for simple webapp"
   ingress {
     from_port   = 80
